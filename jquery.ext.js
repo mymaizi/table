@@ -449,8 +449,4 @@
         });
     });
     }));
-window.baseUrl = {
-    app: "http://localhost:6101",//App应用网关
-    common: "http://localhost:6102",//通用网关
-    platform: "http://localhost:6103"//后台网关
-}
+
