@@ -1,5 +1,7 @@
+# ElTable.vue
+扩展element UI的表格,自我感觉很好用，毕竟做后台表格太繁琐了。
+用法大致同以下表格描述
 # knockout.treetable.js
-公司做SaaS系统后台需要一个快速表格控件，所以利用Knockout做了一个将就用。<br>
 Description：基于Knockout的TreeTable,如同名字,可单一显示表格/表格树以及左树右表格,带搜索参数(调用方式详见下列demo)
 >依赖：underscore ext js库,ext是扩展的相关插件,underscore可用lodash代替
 ## 关于ext
