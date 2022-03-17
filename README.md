@@ -1,4 +1,4 @@
-# ElTable.vue
+# MyTable.vue
 扩展element UI的表格,自我感觉很好用，毕竟做后台表格太繁琐了。
 用法大致同以下表格描述
 # knockout.treetable.js
