@@ -52,7 +52,7 @@
 import { onMounted, reactive,nextTick } from "vue";
 //通用表格组件
 export default {
-  name: "ElTable",
+  name: "MyTable",
   emits: ["expandChange","httpResult"],
   props: {
     //请求地址，如果请求返回数据中包括columns字段则可忽略prop属性columns,反之则需要外部传入
