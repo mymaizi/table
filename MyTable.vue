@@ -148,7 +148,7 @@ const table = reactive({
   items: [], //数据项
   totalCount: 0, //总数
   page: 1,
-  columns_: props.columns.filter(a => !a.disabled), //用于控制显示列是通过table属性传入还是通过后端请求获取
+  columns_: props.columns.filter(a => !a.disabled), //用于控制显示列
   params_: null,
   height: null,
   maxHeight: null
