@@ -60,7 +60,7 @@ const props = defineProps({
   //针对多选决定这一行的 CheckBox 是否可以勾选
   selectable: {
     type: Function,
-    default: () => true
+    default: () => {return true;}
   },
   //加载显示文字
   loadingText: {
