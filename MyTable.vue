@@ -6,7 +6,7 @@
     :tree-props="treeProps" @selection-change="handleSelectionChange" @row-click="handleRowClick"
     @sort-change="handleSortChange" @expand-change="handleExpandChange">
     <template v-if="allowMultiple">
-      <el-table-column type="selection" />
+      <el-table-column type="selection" :selectable="selectable"/>
     </template>
     <slot name="first" />
     <template v-for="(item, i) in table.columns_">
@@ -56,6 +56,11 @@ const props = defineProps({
   allowInitRequest: {
     type: Boolean,
     default: true,
+  },
+  //针对多选决定这一行的 CheckBox 是否可以勾选
+  selectable: {
+    type: Function,
+    default: () => true
   },
   //加载显示文字
   loadingText: {
