@@ -2,7 +2,7 @@
   <el-table v-loading="table.loading" :element-loading-text="loadingText" :element-loading-spinner="loadingSpinner"
     :data="table.items" :row-class-name="tableRowClassName" :header-cell-style="headCellStyle" :cell-style="cellStyle"
     :row-style="rowStyle" :highlight-current-row="!allowMultiple" :empty-text="emptyText" :select-on-indeterminate="true"
-    :border="border" :size="tableSize" :height="table.height" :max-height="table.maxHeight" :row-key="rowKey"
+    :border="border" :size="tableSize" :height="table.height" :max-height="table.maxHeight" :row-key="rowKey" :expand-row-keys="expandRowKeys"
     :tree-props="treeProps" @selection-change="handleSelectionChange" @row-click="handleRowClick"
     @sort-change="handleSortChange" @expand-change="handleExpandChange">
     <template v-if="allowMultiple">
@@ -138,11 +138,17 @@ const props = defineProps({
     type: [Function, String],
     default: "",
   },
+  // 是否自动折叠，需配合rowKey属性
+  autoCollapse: {
+    type: Boolean,
+    default: false,
+  },
   treeProps: {
     type: Object,
     default: () => { },
   },
 });
+const expandRowKeys = ref([]);
 const defaultPageInfoName = {
   pageName: "pageNum",
   skipName: "skipCount",
@@ -220,6 +226,10 @@ function handleRowClick(val) {
   emits("update:modelValue", [val]);
 }
 function handleExpandChange(row, type) {
+  if (props.autoCollapse) {
+    expandRowKeys.value = []
+    expandRowKeys.value.push(row[props.rowKey])
+  }
   emits("expandChange", row, type);
 }
 function handleSortChange(val) {
