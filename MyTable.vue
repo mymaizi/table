@@ -136,7 +136,7 @@ const props = defineProps({
   },
   rowKey: {
     type: [Function, String],
-    default: "",
+    default: "id",
   },
   // 是否自动折叠，需配合rowKey属性
   autoCollapse: {
