@@ -1,0 +1,113 @@
+<template>
+    <div class="infinite-list-wrapper" style="overflow: auto">
+        <div v-infinite-scroll="load" :infinite-scroll-disabled="disabled">
+            <el-space wrap>
+                <slot :data="table.items" />
+            </el-space>
+        </div>
+        <p v-if="loading">加载中...</p>
+        <p v-if="noMore">没有更多了</p>
+        <p v-if="noData">没有查询到任何信息</p>
+    </div>
+</template>
+<script setup>
+
+const props = defineProps({
+    //请求函数
+    http: {
+        type: Function,
+    },
+    //请求参数
+    params: {
+        type: Object,
+        default: {}
+    },
+    //分页大小
+    size: {
+        type: Number,
+        default: 20,
+    },
+    //分页变量,详情参见defaultPageInfoName
+    pageInfoName: {
+        type: Object,
+    },
+    // 返回数据别名
+    dataAlias: {
+        type: String,
+        default: "rows",
+    },
+    // 返回数据别名
+    totalAlias: {
+        type: String,
+        default: "total",
+    }
+})
+const defaultPageInfoName = {
+    pageName: "pageNum",
+    skipName: "skipCount",
+    sizeName: "pageSize",
+};
+const loading = ref(false)
+const table = reactive({
+    items: [], //数据项
+    total: 0, //总数
+    page: 1,
+})
+const noData = computed(() => {
+    return table.items.length == 0 && !loading.value;
+});
+const noMore = computed(() => {
+    if (table.total == 0) return false;
+    return table.items.length >= table.total;
+});
+const disabled = computed(() => {
+    return loading.value || noMore;
+})
+function load() {
+    loading.value = true;
+    let _params = {};
+    let pageInfoName = Object.assign(defaultPageInfoName, props.pageInfoName);
+    _params[pageInfoName.pageName] = table.page;
+    _params[pageInfoName.skipName] = (table.page - 1) * props.size;
+    _params[pageInfoName.sizeName] = props.size;
+    if (props.params) {
+        _params = Object.assign(_params, props.params);
+    }
+    if (!props.http) {
+        loading.value = false;
+        return;
+    }
+    props
+        .http(_params)
+        .then((response) => {
+            table.total = response[props.totalAlias];
+            let items = response[props.dataAlias];
+            if (items.length > 0) {
+                table.items.push(...items);
+                table.page++;
+            }
+        })
+        .finally(() => {
+            loading.value = false;
+        });
+}
+defineExpose({
+    search() {
+        table.items = [];
+        table.page = 1;
+        load();
+    },
+})
+load();
+</script>
+<style scoped>
+.infinite-list-wrapper {
+    height: calc(100vh - 220px);
+    text-align: center;
+}
+
+.infinite-list-wrapper>div {
+    display: flex;
+    flex-wrap: wrap;
+}
+</style>
