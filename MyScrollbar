@@ -1,6 +1,6 @@
 <template>
     <div class="infinite-list-wrapper" style="overflow: auto">
-        <div v-infinite-scroll="load" :infinite-scroll-disabled="disabled">
+        <div v-infinite-scroll="load" :infinite-scroll-disabled="noMore">
             <el-space wrap>
                 <slot :data="table.items" />
             </el-space>
@@ -60,9 +60,7 @@ const noMore = computed(() => {
     if (table.total == 0) return false;
     return table.items.length >= table.total;
 });
-const disabled = computed(() => {
-    return loading.value || noMore;
-})
+
 function load() {
     loading.value = true;
     let _params = {};
@@ -102,7 +100,7 @@ load();
 </script>
 <style scoped>
 .infinite-list-wrapper {
-    height: calc(100vh - 220px);
+    height: calc(100vh - 300px);
     text-align: center;
 }
 
