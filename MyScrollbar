@@ -6,7 +6,7 @@
             </el-space>
         </div>
         <p v-if="loading">加载中...</p>
-        <p v-if="noMore">没有更多了</p>
+        <p v-if="noMore && !noData">没有更多了</p>
         <p v-if="noData">没有查询到任何信息</p>
     </div>
 </template>
@@ -54,10 +54,9 @@ const table = reactive({
     page: 1,
 })
 const noData = computed(() => {
-    return table.items.length == 0 && !loading.value;
+    return table.total == 0 && !loading.value;
 });
 const noMore = computed(() => {
-    if (table.total == 0) return false;
     return table.items.length >= table.total;
 });
 const disabled = computed(() => {
